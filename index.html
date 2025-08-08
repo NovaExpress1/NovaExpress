@@ -90,35 +90,29 @@
 <script>
 function calculatePrice() {
     const usd = parseFloat(document.getElementById("usdPrice").value);
+
     if (usd && usd > 0) {
-        
-        // Step 1: Convert USD to DA
-        const priceDA = usd * 250;
+        let multiplier;
 
-        // Step 2: Add 25% markup
-        let finalPrice = priceDA * 1.25;
-
-        // Step 3: Determine extra commission rate based on USD price
-        let extraRate = 0;
         if (usd < 1) {
-            extraRate = 0.005; // 0.5%
+            multiplier = 1.5;
         } else if (usd >= 1 && usd <= 2.5) {
-            extraRate = 0.004; // 0.4%
+            multiplier = 1.4;
         } else if (usd >= 2.6 && usd <= 40) {
-            extraRate = 0.0025; // 0.25%
+            multiplier = 1.25;
         } else if (usd > 40) {
-            // 0.25% - 0.01% per extra $10
-            let reduction = Math.floor((usd - 40) / 10) * 0.0001;
-            extraRate = 0.0025 - reduction;
-            if (extraRate < 0) extraRate = 0; // No negative commission
+            // Base multiplier for $40
+            multiplier = 1.25;
+            // Drop 0.01 for every extra $10 above $40
+            const extra = usd - 40;
+            const drop = Math.floor(extra / 10) * 0.01;
+            multiplier = Math.max(multiplier - drop, 1); // Ensure it never drops below 1
         }
 
-        // Step 4: Apply extra commission on top of the 25% markup
-        finalPrice += finalPrice * extraRate;
-
-        // Step 5: Round and show result
+        const finalPrice = Math.round(usd * 250 * multiplier);
+        
         document.getElementById("finalResult").innerHTML = 
-            `Final Price: ${Math.round(finalPrice).toLocaleString()} DA`;
+            `Final Price: ${finalPrice.toLocaleString()} DA`;
     } else {
         document.getElementById("finalResult").innerHTML = "Please enter a valid amount.";
     }
