@@ -7,7 +7,7 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        background: #fff8f0;
+        background: #7A1B36; /* Logo color background */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -18,7 +18,7 @@
         background: white;
         padding: 25px;
         border-radius: 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         max-width: 360px;
         width: 100%;
         text-align: center;
@@ -31,7 +31,7 @@
     h1 {
         font-size: 1.3rem;
         margin-bottom: 15px;
-        color: #ff6f00;
+        color: #7A1B36;
     }
     input {
         width: 100%;
@@ -43,11 +43,11 @@
         outline: none;
     }
     input:focus {
-        border-color: #ff9800;
+        border-color: #7A1B36;
     }
     button {
         width: 100%;
-        background: #ff9800;
+        background: #7A1B36;
         color: white;
         border: none;
         padding: 12px;
@@ -57,55 +57,8 @@
         transition: background 0.3s ease;
     }
     button:hover {
-        background: #e68900;
+        background: #5a1326;
     }
     .result {
         margin-top: 15px;
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #2e7d32;
-    }
-    .breakdown {
-        margin-top: 8px;
-        font-size: 0.95rem;
-        color: #555;
-    }
-</style>
-</head>
-<body>
-
-<div class="container">
-    <!-- Logo -->
-    <img src="NovaExpress.png" alt="Nova Express Logo" class="logo">
-    <h1>Nova Express Calculator</h1>
-    
-    <!-- Input -->
-    <input type="number" id="usdPrice" placeholder="Enter price in USD">
-    <button onclick="calculatePrice()">Calculate</button>
-    
-    <!-- Results -->
-    <div class="result" id="finalResult"></div>
-    <div class="breakdown" id="breakdown"></div>
-</div>
-
-<script>
-function calculatePrice() {
-    const usd = parseFloat(document.getElementById("usdPrice").value);
-    if (usd && usd > 0) {
-        const priceDA = usd * 250; // Convert USD to DA
-        const finalPrice = priceDA * 1.25; // Add 25% commission
-        
-        document.getElementById("finalResult").innerHTML = 
-            `Final Price: ${finalPrice.toLocaleString()} DA`;
-        
-        document.getElementById("breakdown").innerHTML = 
-            `Base Price: ${priceDA.toLocaleString()} DA<br>Commission: ${(finalPrice - priceDA).toLocaleString()} DA`;
-    } else {
-        document.getElementById("finalResult").innerHTML = "";
-        document.getElementById("breakdown").innerHTML = "Please enter a valid amount.";
-    }
-}
-</script>
-
-</body>
-</html>
+        font-size: 1
