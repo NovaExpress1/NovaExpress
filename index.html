@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Final Price Calculator - Nova Express</title>
+<title>Nova Express - Price Calculator</title>
 <style>
     body {
         font-family: Arial, sans-serif;
-        background: #f5f5f5;
+        background: #fff8f0;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -16,65 +16,93 @@
     }
     .container {
         background: white;
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        max-width: 350px;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        max-width: 360px;
         width: 100%;
         text-align: center;
     }
+    .logo {
+        max-width: 120px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+    }
     h1 {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         margin-bottom: 15px;
-        color: #333;
+        color: #ff6f00;
     }
     input {
         width: 100%;
-        padding: 10px;
+        padding: 12px;
         font-size: 1rem;
         border: 1px solid #ccc;
-        border-radius: 10px;
+        border-radius: 12px;
         margin-bottom: 15px;
+        outline: none;
+    }
+    input:focus {
+        border-color: #ff9800;
     }
     button {
         width: 100%;
         background: #ff9800;
         color: white;
         border: none;
-        padding: 10px;
+        padding: 12px;
         font-size: 1.1rem;
-        border-radius: 10px;
+        border-radius: 12px;
         cursor: pointer;
+        transition: background 0.3s ease;
     }
     button:hover {
         background: #e68900;
     }
     .result {
         margin-top: 15px;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         font-weight: bold;
         color: #2e7d32;
+    }
+    .breakdown {
+        margin-top: 8px;
+        font-size: 0.95rem;
+        color: #555;
     }
 </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Nova Express Price Calculator</h1>
+    <!-- Logo -->
+    <img src="NovaExpress.png" alt="Nova Express Logo" class="logo">
+    <h1>Nova Express Calculator</h1>
+    
+    <!-- Input -->
     <input type="number" id="usdPrice" placeholder="Enter price in USD">
     <button onclick="calculatePrice()">Calculate</button>
-    <div class="result" id="result"></div>
+    
+    <!-- Results -->
+    <div class="result" id="finalResult"></div>
+    <div class="breakdown" id="breakdown"></div>
 </div>
 
 <script>
 function calculatePrice() {
-    const usd = document.getElementById("usdPrice").value;
+    const usd = parseFloat(document.getElementById("usdPrice").value);
     if (usd && usd > 0) {
-        const finalPrice = usd * 312.5;
-        document.getElementById("result").innerHTML = 
+        const priceDA = usd * 250; // Convert USD to DA
+        const finalPrice = priceDA * 1.25; // Add 25% commission
+        
+        document.getElementById("finalResult").innerHTML = 
             `Final Price: ${finalPrice.toLocaleString()} DA`;
+        
+        document.getElementById("breakdown").innerHTML = 
+            `Base Price: ${priceDA.toLocaleString()} DA<br>Commission: ${(finalPrice - priceDA).toLocaleString()} DA`;
     } else {
-        document.getElementById("result").innerHTML = "Please enter a valid amount.";
+        document.getElementById("finalResult").innerHTML = "";
+        document.getElementById("breakdown").innerHTML = "Please enter a valid amount.";
     }
 }
 </script>
