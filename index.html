@@ -1,95 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nova Express Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #781c32; /* Main burgundy */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .calculator {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            width: 300px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .logo {
-            max-width: 80px;
-            margin-bottom: 15px;
-        }
-
-        h2 {
-            color: #781c32; /* Burgundy title */
-            margin-bottom: 20px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 2px solid #781c32;
-            border-radius: 10px;
-            font-size: 16px;
-        }
-
-        button {
-            background-color: #781c32;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #5c1526; /* Darker burgundy */
-        }
-
-        .result {
-            margin-top: 20px;
-            font-size: 20px;
-            color: #781c32;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Express - Price Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #7A1B36; /* Logo color background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .container {
+        background: white;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        max-width: 360px;
+        width: 100%;
+        text-align: center;
+    }
+    .logo {
+        max-width: 120px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+    }
+    h1 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: #7A1B36;
+    }
+    input {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        outline: none;
+    }
+    input:focus {
+        border-color: #7A1B36;
+    }
+    button {
+        width: 100%;
+        background: #7A1B36;
+        color: white;
+        border: none;
+        padding: 12px;
+        font-size: 1.1rem;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+    button:hover {
+        background: #5a1326;
+    }
+    .result {
+        margin-top: 15px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #2e7d32;
+    }
+</style>
 </head>
 <body>
-    <div class="calculator">
-        <img src="NovaExpress.png" alt="Nova Express Logo" class="logo">
-        <h2>Nova Express Calculator</h2>
-        <input type="number" id="usd" placeholder="Enter price in USD">
-        <button onclick="calculate()">Calculate</button>
-        <div class="result" id="result"></div>
-    </div>
 
-    <script>
-        function calculate() {
-            let usdPrice = parseFloat(document.getElementById("usd").value);
-            if (isNaN(usdPrice) || usdPrice <= 0) {
-                document.getElementById("result").innerHTML = "Please enter a valid number.";
-                return;
-            }
-            
-            let finalPrice = usdPrice * 250; // USD to DZD
-            finalPrice += finalPrice * 0.25; // + 25%
-            finalPrice = Math.round(finalPrice); // Round to nearest unit
-            
-            document.getElementById("result").innerHTML = `Final Price: ${finalPrice} DA`;
-        }
-    </script>
+<div class="container">
+    <!-- Logo -->
+    <img src="NovaExpress.png" alt="Nova Express Logo" class="logo">
+    <h1>Nova Express Calculator</h1>
+    
+    <!-- Input -->
+    <input type="number" id="usdPrice" placeholder="Enter price in USD">
+    <button onclick="calculatePrice()">Calculate</button>
+    
+    <!-- Result -->
+    <div class="result" id="finalResult"></div>
+</div>
+
+<script>
+function calculatePrice() {
+    const usd = parseFloat(document.getElementById("usdPrice").value);
+    if (usd && usd > 0) {
+        const priceDA = usd * 250; // Convert USD to DA
+        const finalPrice = Math.round(priceDA * 1.25); // Add 25% and round
+        document.getElementById("finalResult").innerHTML = 
+            `Final Price: ${finalPrice.toLocaleString()} DA`;
+    } else {
+        document.getElementById("finalResult").innerHTML = "Please enter a valid amount.";
+    }
+}
+</script>
+
 </body>
 </html>
