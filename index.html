@@ -5,9 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nova Express - Price Calculator</title>
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
     body {
-        font-family: Arial, sans-serif;
-        background: #7A1B36;
+        font-family: 'Montserrat', sans-serif;
+        background: #7A1B36; /* Burgundy background */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -23,15 +25,18 @@
         width: 100%;
         text-align: center;
     }
-    h1 {
-        font-size: 1.5rem;
-        margin: 0;
+    .brand {
+        font-size: 1.8rem;
+        font-weight: bold;
         color: #7A1B36;
+        margin-bottom: 0;
     }
-    h2 {
-        font-size: 1.1rem;
-        margin-bottom: 15px;
+    .subtitle {
+        font-size: 1.2rem;
+        font-weight: normal;
         color: #7A1B36;
+        margin-top: 5px;
+        margin-bottom: 20px;
     }
     input {
         width: 100%;
@@ -70,12 +75,15 @@
 <body>
 
 <div class="container">
-    <h1>NovaExpress</h1>
-    <h2>Price Calculator</h2>
+    <!-- Titles -->
+    <div class="brand">NovaExpress</div>
+    <div class="subtitle">Price Calculator</div>
     
+    <!-- Input -->
     <input type="number" id="usdPrice" placeholder="Enter price in USD" step="0.01">
     <button onclick="calculatePrice()">Calculate</button>
     
+    <!-- Result -->
     <div class="result" id="finalResult"></div>
 </div>
 
@@ -83,34 +91,34 @@
 function calculatePrice() {
     const usd = parseFloat(document.getElementById("usdPrice").value);
     if (usd && usd > 0) {
-        const daPrice = usd * 250;
+        
+        // Step 1: Convert USD to DA
+        const priceDA = usd * 250;
 
-        // Base commission 25%
-        let totalPrice = daPrice * 1.25;
+        // Step 2: Add 25% markup
+        let finalPrice = priceDA * 1.25;
 
-        // Extra commission calculation
-        let extraCommissionRate = 0;
-
+        // Step 3: Determine extra commission rate based on USD price
+        let extraRate = 0;
         if (usd < 1) {
-            extraCommissionRate = 0.005; // 0.5%
-        } else if (usd <= 2.5) {
-            extraCommissionRate = 0.004; // 0.4%
-        } else if (usd <= 40) {
-            extraCommissionRate = 0.0025; // 0.25%
-        } else {
-            // start at 0.25% then subtract 0.01% per $10 over $40
-            extraCommissionRate = 0.0025 - (Math.floor((usd - 40) / 10) * 0.0001);
-            if (extraCommissionRate < 0) extraCommissionRate = 0; // prevent negative
+            extraRate = 0.005; // 0.5%
+        } else if (usd >= 1 && usd <= 2.5) {
+            extraRate = 0.004; // 0.4%
+        } else if (usd >= 2.6 && usd <= 40) {
+            extraRate = 0.0025; // 0.25%
+        } else if (usd > 40) {
+            // 0.25% - 0.01% per extra $10
+            let reduction = Math.floor((usd - 40) / 10) * 0.0001;
+            extraRate = 0.0025 - reduction;
+            if (extraRate < 0) extraRate = 0; // No negative commission
         }
 
-        // Apply extra commission
-        totalPrice *= (1 + extraCommissionRate);
+        // Step 4: Apply extra commission on top of the 25% markup
+        finalPrice += finalPrice * extraRate;
 
-        // Round to nearest DA
-        const finalPrice = Math.round(totalPrice);
-
+        // Step 5: Round and show result
         document.getElementById("finalResult").innerHTML = 
-            `Final Price: ${finalPrice.toLocaleString()} DA`;
+            `Final Price: ${Math.round(finalPrice).toLocaleString()} DA`;
     } else {
         document.getElementById("finalResult").innerHTML = "Please enter a valid amount.";
     }
