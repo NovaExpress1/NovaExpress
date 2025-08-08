@@ -7,7 +7,7 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        background: #7A1B36; /* Burgundy */
+        background: #7A1B36;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -25,11 +25,11 @@
     }
     h1 {
         font-size: 1.5rem;
-        margin-bottom: 5px;
+        margin: 0;
         color: #7A1B36;
     }
     h2 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         margin-bottom: 15px;
         color: #7A1B36;
     }
@@ -70,10 +70,10 @@
 <body>
 
 <div class="container">
-    <h1>Nova Express</h1>
+    <h1>NovaExpress</h1>
     <h2>Price Calculator</h2>
     
-    <input type="number" id="usdPrice" placeholder="Enter price in USD">
+    <input type="number" id="usdPrice" placeholder="Enter price in USD" step="0.01">
     <button onclick="calculatePrice()">Calculate</button>
     
     <div class="result" id="finalResult"></div>
@@ -83,25 +83,32 @@
 function calculatePrice() {
     const usd = parseFloat(document.getElementById("usdPrice").value);
     if (usd && usd > 0) {
-        let commissionRate = 0;
+        const daPrice = usd * 250;
+
+        // Base commission 25%
+        let totalPrice = daPrice * 1.25;
+
+        // Extra commission calculation
+        let extraCommissionRate = 0;
 
         if (usd < 1) {
-            commissionRate = 0.005; // 0.5%
-        } else if (usd >= 1 && usd <= 2.5) {
-            commissionRate = 0.004; // 0.4%
-        } else if (usd >= 2.6 && usd <= 40) {
-            commissionRate = 0.0025; // 0.25%
-        } else if (usd > 40) {
-            // Start from 0.25%
-            commissionRate = 0.0025;
-            // Drop 0.01% per extra $10 above $40
-            const extra10s = Math.floor((usd - 40) / 10);
-            commissionRate -= extra10s * 0.0001;
-            if (commissionRate < 0) commissionRate = 0; // never negative
+            extraCommissionRate = 0.005; // 0.5%
+        } else if (usd <= 2.5) {
+            extraCommissionRate = 0.004; // 0.4%
+        } else if (usd <= 40) {
+            extraCommissionRate = 0.0025; // 0.25%
+        } else {
+            // start at 0.25% then subtract 0.01% per $10 over $40
+            extraCommissionRate = 0.0025 - (Math.floor((usd - 40) / 10) * 0.0001);
+            if (extraCommissionRate < 0) extraCommissionRate = 0; // prevent negative
         }
 
-        const priceDA = usd * 250;
-        const finalPrice = Math.round(priceDA * (1 + commissionRate));
+        // Apply extra commission
+        totalPrice *= (1 + extraCommissionRate);
+
+        // Round to nearest DA
+        const finalPrice = Math.round(totalPrice);
+
         document.getElementById("finalResult").innerHTML = 
             `Final Price: ${finalPrice.toLocaleString()} DA`;
     } else {
