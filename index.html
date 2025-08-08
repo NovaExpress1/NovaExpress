@@ -3,92 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nova Express Calculator</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+<title>Nova Express - Price Calculator</title>
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
     body {
-        font-family: 'Poppins', sans-serif;
-        background-color: #7a1e3a;
+        font-family: 'Montserrat', sans-serif;
+        background: #7A1B36; /* Burgundy background */
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
         margin: 0;
     }
-    .calculator {
-        background-color: white;
-        padding: 30px;
+    .container {
+        background: white;
+        padding: 25px;
         border-radius: 20px;
-        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        max-width: 360px;
+        width: 100%;
         text-align: center;
-        width: 320px;
     }
-    h1 {
-        color: #7a1e3a;
+    .brand {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #7A1B36;
+        margin-bottom: 0;
+    }
+    .subtitle {
+        font-size: 1.2rem;
+        font-weight: normal;
+        color: #7A1B36;
+        margin-top: 5px;
         margin-bottom: 20px;
-        line-height: 1.2em;
-        font-weight: 700;
     }
     input {
-        width: 90%;
+        width: 100%;
         padding: 12px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 12px;
         margin-bottom: 15px;
-        border: 2px solid #7a1e3a;
-        border-radius: 10px;
-        font-size: 16px;
         outline: none;
-        transition: 0.3s;
     }
     input:focus {
-        border-color: #5c152c;
-        box-shadow: 0px 0px 5px rgba(122, 30, 58, 0.5);
+        border-color: #7A1B36;
     }
     button {
-        background-color: #7a1e3a;
-        color: white;
-        padding: 12px;
-        border: none;
-        border-radius: 15px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
         width: 100%;
-        transition: 0.3s;
+        background: #7A1B36;
+        color: white;
+        border: none;
+        padding: 12px;
+        font-size: 1.1rem;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background 0.3s ease;
     }
     button:hover {
-        background-color: #5c152c;
-        transform: scale(1.02);
+        background: #5a1326;
     }
     .result {
         margin-top: 15px;
-        font-size: 20px;
+        font-size: 1.2rem;
         font-weight: bold;
-        color: #7a1e3a;
+        color: #2e7d32;
     }
 </style>
 </head>
 <body>
 
-<div class="calculator">
-    <h1>
-        <span style="display:block;">Nova Express</span>
-        <span style="display:block; font-size: 1.2em;">Price Calculator</span>
-    </h1>
+<div class="container">
+    <!-- Titles -->
+    <div class="brand">NovaExpress</div>
+    <div class="subtitle">Price Calculator</div>
+    
+    <!-- Input -->
     <input type="number" id="usdPrice" placeholder="Enter price in USD">
-    <button onclick="calculate()">Calculate</button>
-    <div class="result" id="result"></div>
+    <button onclick="calculatePrice()">Calculate</button>
+    
+    <!-- Result -->
+    <div class="result" id="finalResult"></div>
 </div>
 
 <script>
-function calculate() {
-    let usdPrice = parseFloat(document.getElementById("usdPrice").value);
-    if (isNaN(usdPrice)) {
-        document.getElementById("result").innerText = "Please enter a valid number";
-        return;
+function calculatePrice() {
+    const usd = parseFloat(document.getElementById("usdPrice").value);
+    if (usd && usd > 0) {
+        const priceDA = usd * 250; // Convert USD to DA
+        const finalPrice = Math.round(priceDA * 1.25); // Add 25% and round
+        document.getElementById("finalResult").innerHTML = 
+            `Final Price: ${finalPrice.toLocaleString()} DA`;
+    } else {
+        document.getElementById("finalResult").innerHTML = "Please enter a valid amount.";
     }
-    let priceInDA = usdPrice * 250;
-    let finalPrice = Math.round(priceInDA + (priceInDA * 0.25));
-    document.getElementById("result").innerText = `Final Price: ${finalPrice} DA`;
 }
 </script>
 
