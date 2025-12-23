@@ -39,17 +39,6 @@ input{
   border:1px solid #ccc;
   margin-bottom:15px;
 }
-button{
-  width:100%;
-  padding:12px;
-  background:#7a001f;
-  color:#fff;
-  border:none;
-  border-radius:12px;
-  font-size:16px;
-  cursor:pointer;
-}
-button:hover{background:#9e0030;}
 .result{
   margin-top:20px;
   background:#f3e6eb;
@@ -59,10 +48,61 @@ button:hover{background:#9e0030;}
   font-weight:bold;
   color:#7a001f;
 }
+.footer{
+  margin-top:15px;
+  font-size:12px;
+  color:#777;
+}
 @keyframes fadeIn{
   from{opacity:0;transform:translateY(20px);}
   to{opacity:1;transform:translateY(0);}
 }
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+  <h1>Price Calculator</h1>
+
+  <!-- LIVE INPUT -->
+  <input 
+    type="number" 
+    id="usd" 
+    placeholder="Enter price in USD ($)" 
+    oninput="calculate()"
+  >
+
+  <div class="result" id="result">Final price: — DA</div>
+  <div class="footer">NovaExpress • USD → DA</div>
+</div>
+
+<script>
+function calculate(){
+  const usd = parseFloat(document.getElementById("usd").value);
+  const result = document.getElementById("result");
+
+  if(isNaN(usd) || usd <= 0){
+    result.innerText = "Final price: — DA";
+    return;
+  }
+
+  let extra = 0;
+
+  if(usd < 4) extra = 150;
+  else if(usd <= 7.9) extra = 200;
+  else if(usd <= 9.9) extra = 250;
+  else if(usd <= 11.9) extra = 300;
+  else if(usd <= 14.9) extra = 400;
+  else extra = 500;
+
+  const da = Math.round(usd * 265 + extra);
+  result.innerText = `Final price: ${da} DA`;
+}
+</script>
+
+</body>
+</html>}
 .footer{
   margin-top:15px;
   font-size:12px;
