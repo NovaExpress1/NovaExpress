@@ -107,17 +107,32 @@ function calculate(){
     return;
   }
 
-  let extra = 0;
-  if(usd < 4) extra = 150;
-  else if(usd <= 7.9) extra = 200;
-  else if(usd <= 9.9) extra = 250;
-  else if(usd <= 11.9) extra = 300;
-  else if(usd <= 15.9) extra = 400;
-  else if(usd <= 19.9) extra = 500;
-  else extra = usd*26.5+usd*26.5*0.2;
+  let da = 0;
 
-  const da = Math.round(usd * 265 + extra);
-  result.innerText = `Final price: ${da} DA`;
+  if(usd < 4){
+    da = usd * 265 + 150;
+  }
+  else if(usd <= 7.9){
+    da = usd * 265 + 200;
+  }
+  else if(usd <= 9.9){
+    da = usd * 265 + 250;
+  }
+  else if(usd <= 11.9){
+    da = usd * 265 + 300;
+  }
+  else if(usd <= 15.9){
+    da = usd * 265 + 400;
+  }
+  else if(usd < 19.9){
+    da = usd * 265 + 500;
+  }
+  else{
+    // ✅ 20% rule
+    da = usd * 265 * 1.2;
+  }
+
+  result.innerText = `Final price: ${Math.round(da)} DA`;
 }
 </script>
 
